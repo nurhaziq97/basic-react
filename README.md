@@ -1,4 +1,4 @@
-# basic-react
+# Basic-react application
 An application build for the purpose of leatning react 
 
 
