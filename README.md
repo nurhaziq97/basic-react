@@ -1,5 +1,7 @@
 # Basic-react application
-An application build for the purpose of leatning react 
+An application build for the purpose of learning react.
+
+This application is built based on github [bezkoder](https://github.com/bezkoder/react-jwt-auth)
 
 
 # Getting Started with Create React App

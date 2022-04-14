@@ -11,3 +11,5 @@ const authHeader = () => {
         return {};
     }
 }
+
+export default authHeader;
