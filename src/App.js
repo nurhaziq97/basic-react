@@ -11,9 +11,10 @@ import Profile from "./components/profile.component";
 import BoardUser from "./components/board-user.component";
 import BoardModerator from "./components/board-moderator.component";
 import BoardAdmin from "./components/board-admin.component";
-import Header from './components/header.components';
-import LoginHooks from './components/loginHooks.component';
+import Header from './components/header.component';
+import LoginHooks from './components/login.component';
 import DataTableBasicDemo from './components/datatable.component';
+import NewStory from './components/new-story.component';
 
 // check theme name here => https://github.com/primefaces/primereact/tree/master/public/themes
 import "primereact/resources/themes/lara-light-purple/theme.css";  //theme
@@ -46,6 +47,7 @@ export default class App extends React.Component {
 					<Route path="/mod" element={<BoardModerator />} />
 					<Route path="/admin" element={<BoardAdmin />} />
 					<Route path="/datatable" element={<DataTableBasicDemo />} />
+					<Route path="/new-story" element={<NewStory /> } />
 					<Route path="*" element={<Home />} />
 				</Routes>
 				</div>

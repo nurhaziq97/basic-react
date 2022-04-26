@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import eventBus from "../common/EventBus";
+import EventBus from "../common/EventBus";
 import authService from "../services/auth.service";
 import { Link } from 'react-router-dom';
 
@@ -21,7 +21,7 @@ const Header = () => {
             showModeratorBoard: false,
             currentUser: undefined
         }));
-        eventBus.remove("logout");
+        EventBus.remove("logout");
     }
 
     useEffect(() => {
@@ -34,7 +34,7 @@ const Header = () => {
                 showAdminBoard: user.roles.includes("ROLE_ADMIN")      
             }));
         }
-    }, [loginState]);
+    }, [loginState, logout]);
 
     const handleNavCollapse = () => {
         setNavCollapse((prevState) => (!prevState));
@@ -46,7 +46,7 @@ const Header = () => {
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
                 <div className="container-fluid">
                     <Link to={"/"} className="navbar-brand">
-                        bezKoder
+                        BlogApp
                     </Link>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" 
                         data-bs-target="#navbarScroll" aria-controls="navbarScroll" 
@@ -64,7 +64,7 @@ const Header = () => {
 
                             <li className="nav-item">
                                 <Link to={"/datatable"} className="nav-link">
-                                    DataTable
+                                    Explore
                                 </Link>
                             </li>
 
@@ -86,11 +86,20 @@ const Header = () => {
 
                             {loginState.currentUser && (
                                 <li className="nav-item">
-                                    <Link to={"/user"} className="nav-link">
-                                        User
+                                    <Link to={"/new-story"} className="nav-link">
+                                        Write Stories
                                     </Link>
                                 </li>
                             )}
+
+                            {loginState.currentUser && (
+                                <li className="nav-item">
+                                    <Link to={"/user"} className="nav-link">
+                                        My Stories
+                                    </Link>
+                                </li>
+                            )}
+
                         </div>
 
                         {loginState.currentUser ? (
@@ -102,7 +111,7 @@ const Header = () => {
                                 </li>
                                 <li className="nav-item">
                                     <a href="/login" className="nav-link" onClick={logout}>
-                                        LogOut
+                                        Logout
                                     </a>
                                 </li>
                             </div>

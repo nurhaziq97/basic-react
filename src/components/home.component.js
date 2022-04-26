@@ -1,25 +1,22 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 
 import UserService from "../services/user.service";
+import ViewBlogGridComponent from "./view-blog-grid.component";
 
-export default class Home extends Component {
-  constructor(props) {
-    super(props);
+import 'primeflex/primeflex.css';
 
-    this.state = {
-      content: ""
-    };
-  }
-
-  componentDidMount() {
+const Home = () => {
+  const [networkState, setNetworkState] = useState("");
+  
+  useEffect(() => {
     UserService.getPublicContent().then(
       response => {
-        this.setState({
+        setNetworkState({
           content: response.data
         });
       },
       error => {
-        this.setState({
+        setNetworkState({
           content:
             (error.response && error.response.data) ||
             error.message ||
@@ -27,15 +24,17 @@ export default class Home extends Component {
         });
       }
     );
-  }
-
-  render() {
-    return (
-      <div className="container">
-        <header className="jumbotron">
-          <h3>{this.state.content}</h3>
-        </header>
-      </div>
-    );
-  }
+  });
+  return (
+    // <div className="card col-md-12">
+    //       <div className="card-body">
+    //         <h3 className="card-title">Top Stories</h3>
+    //           <div className="card-text">
+                <ViewBlogGridComponent />
+      //         </div>
+      //     </div>
+      // </div>
+  );
 }
+
+export default Home;
