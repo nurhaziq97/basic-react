@@ -91,7 +91,28 @@ const Header = () => {
                                     </Link>
                                 </li>
                             )}
+
+
+                        {loginState.currentUser && (
+                            <div className="navbar-nav ml-auto">
+                                <li className="nav-item">
+                                    <a href="/new-story" className="nav-link">
+                                        New Blog
+                                    </a>
+                                </li>
+                            </div>
+                        )}
                         </div>
+
+                        {loginState.currentUser && (
+                            <div className="navbar-nav ml-auto">
+                                <li className="nav-item">
+                                    <a href="/my-blog" className="nav-link">
+                                        My Blog
+                                    </a>
+                                </li>
+                            </div>
+                        )}
 
                         {loginState.currentUser ? (
                             <div className="navbar-nav ml-auto">
