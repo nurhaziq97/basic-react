@@ -14,12 +14,19 @@ import BoardAdmin from "./components/board-admin.component";
 import Header from './components/header.component';
 import LoginHooks from './components/login.component';
 import DataTableBasicDemo from './components/datatable.component';
+<<<<<<< HEAD
 import NewStory from './components/new-story.component';
+=======
+import NewStory from './components/new-blog.component';
+>>>>>>> change-temp
 
 // check theme name here => https://github.com/primefaces/primereact/tree/master/public/themes
 import "primereact/resources/themes/lara-light-purple/theme.css";  //theme
 import "primereact/resources/primereact.min.css";                  //core css
 import "primeicons/primeicons.css";                                //icons
+import MyBlog from './components/myblog.component';
+import BlogView from './components/blog.view.component';
+import EditBlog from './components/edit.blog.component';
 
 export default class App extends React.Component {
 	state = {
@@ -47,8 +54,15 @@ export default class App extends React.Component {
 					<Route path="/mod" element={<BoardModerator />} />
 					<Route path="/admin" element={<BoardAdmin />} />
 					<Route path="/datatable" element={<DataTableBasicDemo />} />
+<<<<<<< HEAD
 					<Route path="/new-story" element={<NewStory /> } />
+=======
+					<Route path="/my-blog" element={<MyBlog />} />
+>>>>>>> change-temp
 					<Route path="*" element={<Home />} />
+					<Route path="/new-story" element={<NewStory /> } />
+					<Route path="/blog/view/:id" element={<BlogView />} />
+					<Route path="/blog/edit/:blogId" element={<EditBlog />} />
 				</Routes>
 				</div>
 			</BrowserRouter>

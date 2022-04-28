@@ -6,6 +6,10 @@
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
+<<<<<<< HEAD
+=======
+    "@uiw/react-markdown-editor": "^4.0.3",
+>>>>>>> change-temp
     "@uiw/react-md-editor": "^3.12.1",
     "axios": "^0.26.1",
     "bootstrap": "^5.1.3",
