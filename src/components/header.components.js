@@ -46,7 +46,7 @@ const Header = () => {
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
                 <div className="container-fluid">
                     <Link to={"/"} className="navbar-brand">
-                        bezKoder
+                        Blog App
                     </Link>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" 
                         data-bs-target="#navbarScroll" aria-controls="navbarScroll" 
@@ -96,9 +96,9 @@ const Header = () => {
                         {loginState.currentUser && (
                             <div className="navbar-nav ml-auto">
                                 <li className="nav-item">
-                                    <a href="/new-story" className="nav-link">
+                                    <Link to={"/new-story"} className="nav-link">
                                         New Blog
-                                    </a>
+                                    </Link>
                                 </li>
                             </div>
                         )}
@@ -107,9 +107,9 @@ const Header = () => {
                         {loginState.currentUser && (
                             <div className="navbar-nav ml-auto">
                                 <li className="nav-item">
-                                    <a href="/my-blog" className="nav-link">
+                                    <Link to={"/my-blog"} className="nav-link">
                                         My Blog
-                                    </a>
+                                    </Link>
                                 </li>
                             </div>
                         )}

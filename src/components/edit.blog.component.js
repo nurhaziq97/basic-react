@@ -3,29 +3,53 @@ import React, { useEffect, useRef, useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import rehypeSanitize from "rehype-sanitize";
+import authService from "../services/auth.service";
 import {BlogService} from "../services/blog.service";
+import { useParams } from "react-router-dom";
+import { Toast } from "primereact/toast";
 
 // set the color mode of HTML
 document.documentElement.setAttribute('data-color-mode', 'light');
 
 
-const NewStory = () => {
+const EditBlog = () => {
     const [editorState, setEditorState] =  useState("");
+    const [blogState, setblogState] = useState(null);
     const [title, setTitleState] = useState("");
+    const [userState, setUserState] = useState(null);
     const formRef = useRef();
-    
-    
+    const blogService = new BlogService();
+    const {blogId} = useParams();
+    const toast = useRef(null);
+    const navigate = useNavigate();
     const onChangeTitle = (e) => setTitleState(e.target.value);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(title, editorState);
-        const blogService = new BlogService();
-        blogService.createNewBlog(title, editorState);
+        const responseMessage = blogService.editMyBlog(blogId, title, editorState)
+        .then(response => {
+            if(response.message) {
+                // toast.current.show({severity: 'success', summary: response.message, detail: "Successfully Updated the Blog", life: 500})
+            }
+            return response.message;
+        });
+        if(responseMessage) {
+            navigate("/blog/view/"+blogId);
+        }
     }
 
-    const navigate = useNavigate();
-     
+    useEffect(() => {
+        const user = authService.getCurrentUser();
+        setUserState(user);
+        if(blogId) {
+            const blog = blogService.getBlog(blogId)
+            .then(response => {
+                setEditorState(response.blogContent);
+                setTitleState(response.blogTitle);
+                return setblogState(response);
+            })
+        }
+    }, []);
 
     const handleCancel = (e) => {
         navigate("/");
@@ -40,7 +64,8 @@ const NewStory = () => {
         onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="formInputTitle">
                 <Form.Label>BlogTitle</Form.Label>
-                <Form.Control type="text" onChange={onChangeTitle}/>
+                <Form.Control type="text" onChange={onChangeTitle} 
+                value={(title ? title : "")}/>
             </Form.Group>
             <Form.Group className="mb-3">
              <Form.Label>Content</Form.Label>
@@ -61,9 +86,10 @@ const NewStory = () => {
                     Cancel
                 </Button>
             </div>
+            <Toast ref={toast} />
         </Form>
     </div>
     );
 }
 
-export default NewStory;
+export default EditBlog;

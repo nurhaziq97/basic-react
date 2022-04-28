@@ -1,21 +1,25 @@
 import axios from "axios";
 import authHeader from "./auth-header";
+import { URL_MAIN_API } from "./url.service";
+
+const API_URL = URL_MAIN_API + "blog/";
 
 export class BlogService {
+
     getMyBlog() {
-        return axios.get("http://localhost:8080/api/blog/myblog", { headers: authHeader() })
+        return axios.get(API_URL + "myblog", { headers: authHeader() })
         .then(response => response.data);
     }
 
     getAllBlog() {
-        return axios.get("http://localhost:8080/api/blog/")
+        return axios.get(API_URL)
         .then(response => response.data);
     }
 
     createNewBlog (title, content) {
         // console.log(title, authHeader());
         return axios.post(
-            "http://localhost:8080/api/blog/create", {
+            API_URL + "create", {
             title,
             content
             }, {headers: authHeader() }
@@ -28,10 +32,30 @@ export class BlogService {
 
     deleteBlog (blogId) {
         if(blogId) {
-            return axios.delete("http://localhost:8080/api/blog/delete/"+ blogId, {
+            return axios.delete(API_URL + "delete/"+ blogId, {
                 headers: authHeader()
             }).then(response => response.data)
             .catch(error => error.response.status);
+        }
+    }
+
+    getBlog(blogId) {
+        if(blogId) {
+            return axios.get(API_URL + "view/"+blogId)
+            .then(response => response.data);
+        }
+    }
+
+    editMyBlog(id, title, content) {
+        if(title && content) {
+            return axios.put(API_URL + "edit/" + id, 
+            {
+                title,
+                content
+            },
+            {
+                headers: authHeader()
+            }).then(response => response.data);
         }
     }
 }

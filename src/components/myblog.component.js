@@ -17,6 +17,7 @@ import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 import { Toast } from 'primereact/toast';
 import '../styles/PrimeReact.css';
 import '../styles/DataTableDemo.css';
+import { useNavigate } from 'react-router-dom';
 
 const MyBlog = () => {
     // const [customers, setCustomers] = useState(null);
@@ -33,8 +34,8 @@ const MyBlog = () => {
     });
     const [globalFilterValue, setGlobalFilterValue] = useState('');
     const [loading, setLoading] = useState(true);
-
     const blogService = new BlogService();
+    const navigate  =useNavigate();
     useEffect(() => {
         // console.log(blogService.getMyBlog());
         blogService.getMyBlog()
@@ -114,15 +115,20 @@ const MyBlog = () => {
 
     const deleteAction = (blogId) => {
         if(blogId) {
-            const promise = blogService.deleteBlog(blogId);
+            blogService.deleteBlog(blogId).then(
+                response => {
+                    if(response.message) {
+                        console.log(response.message);
+                        toast.current.show({ severity: 'error', summary: 'Confirmed', detail: 'You have deleted a blog', life: 3000 });
+                    }
+                }
+            ).catch(error => {
+                console.log(error);
+                toast.current.show({ severity: 'warn', summary: 'Confirmed', detail: 'Error Deleting Blog', life: 3000 })
+            });
             setMyBlog(myblog.filter(blog => { 
                 return blog.blogId !== parseInt(blogId);
             }));
-            if(promise) {
-                toast.current.show({ severity: 'error', summary: 'Confirmed', detail: 'You have deleted a blog', life: 3000 })
-            }else {
-                toast.current.show({ severity: 'warn', summary: 'Confirmed', detail: 'Error Deleting Blog', life: 3000 })
-            }
         }
     }
 
@@ -144,6 +150,25 @@ const MyBlog = () => {
             
         }
     }
+
+    const viewBodyTemplate = (rowData) => {
+        return <div><Button type="button" icon="pi pi-eye" className='p-button-info' onClick={handleViewButton} id={rowData.blogId}></Button></div>; 
+    }
+
+    const handleViewButton = (e) => {
+        redirectView(e.target.id);
+    }
+
+    const handleRowClick = (e) => {
+        redirectView(e.data.blogId);
+    }
+
+    const redirectView = (blogId) => {
+        if(blogId) {
+            console.log(blogId);
+            navigate("/blog/view/"+blogId);
+        }
+    } 
     
 
     const header = renderHeader();
@@ -153,22 +178,17 @@ const MyBlog = () => {
             <div className="card">
                 <DataTable value={myblog} paginator className="p-datatable-customers" header={header} rows={10}
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown" rowsPerPageOptions={[10,25,50]}
-                    dataKey="blogId" rowHover selection={selectedBlogs} onSelectionChange={e => setSelectedBlogs(e.value)}
+                    dataKey="blogId" rowHover selection={selectedBlogs} onSelectionChange={e => setSelectedBlogs(e.value)} onRowClick={handleRowClick}
                     filters={filters} filterDisplay="menu" loading={loading} responsiveLayout="scroll"
                     globalFilterFields={['blogTitle', 'country.name', 'representative.name', 'balance', 'status', 'username']} emptyMessage="No customers found."
                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
                     
-                    <Column selectionMode="multiple" headerStyle={{ width: '3em' }}></Column>
+                    {/* <Column selectionMode="multiple" headerStyle={{ width: '3em' }}></Column> */}
                     <Column field="blogTitle" header="Blog Title" sortable filter filterPlaceholder="Search by name" style={{ minWidth: '15rem' }} />
                     <Column field="username" header="Username" sortable filter style={{ minWidth: '5rem' }} />
-                    {/* <Column field="country.name" header="Country" sortable filterField="country.name" style={{ minWidth: '14rem' }} body={countryBodyTemplate} filter filterPlaceholder="Search by country" /> */}
-                    {/* <Column header="Agent" sortable sortField="representative.name" filterField="representative" showFilterMatchModes={false} filterMenuStyle={{ width: '14rem' }} style={{ minWidth: '14rem' }} body={representativeBodyTemplate}
-                        filter filterElement={representativeFilterTemplate} /> */}
                     <Column field="date" header="Created Date" sortable filterField="date" dataType="date" style={{ minWidth: '8rem' }} body={dateBodyTemplate}
                         filter filterElement={dateFilterTemplate} />
-                    {/* <Column field="balance" header="Balance" sortable dataType="numeric" style={{ minWidth: '8rem' }} body={balanceBodyTemplate} filter filterElement={balanceFilterTemplate} /> */}
-                    {/* <Column field="status" header="Status" sortable filterMenuStyle={{ width: '14rem' }} style={{ minWidth: '10rem' }} body={statusBodyTemplate} filter filterElement={statusFilterTemplate} /> */}
-                    {/* <Column field="activity" header="Activity" sortable showFilterMatchModes={false} style={{ minWidth: '10rem' }} body={activityBodyTemplate} filter filterElement={activityFilterTemplate} /> */}
+                    <Column headerStyle={{ width: '4rem', textAlign: 'center' }} bodyStyle={{ textAlign: 'center', overflow: 'visible' }} body={viewBodyTemplate} />
                     <Column headerStyle={{ width: '4rem', textAlign: 'center' }} bodyStyle={{ textAlign: 'center', overflow: 'visible' }} body={actionBodyTemplate} />
                     <Column headerStyle={{ width: '4rem', textAlign: 'center' }} bodyStyle={{ textAlign: 'center', overflow: 'visible' }} body={deleteBodyTemplate} />
                 </DataTable>

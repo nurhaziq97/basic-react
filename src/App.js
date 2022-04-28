@@ -21,6 +21,8 @@ import "primereact/resources/themes/lara-light-purple/theme.css";  //theme
 import "primereact/resources/primereact.min.css";                  //core css
 import "primeicons/primeicons.css";                                //icons
 import MyBlog from './components/myblog.component';
+import BlogView from './components/blog.view.component';
+import EditBlog from './components/edit.blog.component';
 
 export default class App extends React.Component {
 	state = {
@@ -51,6 +53,8 @@ export default class App extends React.Component {
 					<Route path="/my-blog" element={<MyBlog />} />
 					<Route path="*" element={<Home />} />
 					<Route path="/new-story" element={<NewStory /> } />
+					<Route path="/blog/view/:id" element={<BlogView />} />
+					<Route path="/blog/edit/:blogId" element={<EditBlog />} />
 				</Routes>
 				</div>
 			</BrowserRouter>
