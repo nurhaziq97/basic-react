@@ -46,11 +46,7 @@ const Header = () => {
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
                 <div className="container-fluid">
                     <Link to={"/"} className="navbar-brand">
-<<<<<<< HEAD:src/components/header.component.js
-                        BlogApp
-=======
                         Blog App
->>>>>>> change-temp:src/components/header.components.js
                     </Link>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" 
                         data-bs-target="#navbarScroll" aria-controls="navbarScroll" 
@@ -96,16 +92,6 @@ const Header = () => {
                                 </li>
                             )}
 
-<<<<<<< HEAD:src/components/header.component.js
-                            {loginState.currentUser && (
-                                <li className="nav-item">
-                                    <Link to={"/user"} className="nav-link">
-                                        My Stories
-                                    </Link>
-                                </li>
-                            )}
-
-=======
 
                         {loginState.currentUser && (
                             <div className="navbar-nav ml-auto">
@@ -116,7 +102,6 @@ const Header = () => {
                                 </li>
                             </div>
                         )}
->>>>>>> change-temp:src/components/header.components.js
                         </div>
 
                         {loginState.currentUser && (
