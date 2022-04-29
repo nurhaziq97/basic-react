@@ -102,9 +102,16 @@ const MyBlog = () => {
     }
 
 
-    const actionBodyTemplate = () => {
-        return <div><Button type="button" icon="pi pi-pencil"></Button></div>;
+    const actionBodyTemplate = (rowData) => {
+        return <div><Button type="button" icon="pi pi-pencil" id={rowData.blogId} onClick={handleEditButton}></Button></div>;
         
+    }
+
+    const handleEditButton = (e) => {
+        if(e.target.id) {
+            console.log(e.target.id);
+            navigate("/blog/edit/"+e.target.id);
+        }
     }
 
     const deleteBodyTemplate = (rowData) => {
